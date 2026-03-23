@@ -99,6 +99,11 @@ class BabelEngine:
             cjk = sum(1 for c in text if '\u4e00' <= c <= '\u9fff')
             language = "zh" if cjk / max(len(text), 1) > 0.3 else "en"
 
+        # Auto-start session if idle (for stateless HTTP usage)
+        from babel_buddy.core.conversation import ConversationState
+        if self.conversation.state == ConversationState.IDLE:
+            await self.start_session()
+
         if self.conversation.is_exit_phrase(text):
             await self.end_session()
             return TurnResult(

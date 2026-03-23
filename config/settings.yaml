@@ -1,6 +1,6 @@
 models:
   llm:
-    name: "qwen2.5:32b"
+    name: "minimax-m2.5-q6k"
     ollama_host: "http://localhost:11434"
     context_window: 20
   asr:

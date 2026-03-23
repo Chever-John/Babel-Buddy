@@ -22,9 +22,15 @@ async def test_parse_response_no_translation(client):
     assert response.translation == ""
 
 async def test_chat_sends_correct_request(client, httpx_mock):
+    # chat() uses streaming internally, so mock a streaming response
+    stream_lines = "\n".join([
+        json.dumps({"message": {"content": "Hi!"}, "done": False}),
+        json.dumps({"message": {"content": "\n[Translation: 你好！]"}, "done": False}),
+        json.dumps({"message": {"content": ""}, "done": True}),
+    ])
     httpx_mock.add_response(
         url="http://localhost:11434/api/chat",
-        json={"message": {"content": "Hi!\n[Translation: 你好！]"}, "done": True},
+        text=stream_lines,
     )
     messages = [
         {"role": "system", "content": "You are Babel."},
