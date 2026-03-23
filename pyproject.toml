@@ -11,6 +11,9 @@ dependencies = [
     "httpx>=0.28.0",
 ]
 
+[project.scripts]
+babel-buddy = "babel_buddy.__main__:main"
+
 [project.optional-dependencies]
 speech = [
     "openai-whisper>=20240930",
