@@ -1,0 +1,19 @@
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+*.egg-info/
+dist/
+build/
+
+# Runtime data
+data/sessions.db
+data/audio/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+
+# Environment
+.env
