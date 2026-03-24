@@ -2,8 +2,10 @@
 
 *BabelBuddy - Breaking language barriers, building friendships around the world*
 
+**[中文文档 (Chinese)](README-ZH.md)**
+
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![Platform](https://img.shields.io/badge/Platform-macOS%20%7C%20Linux-purple.svg)]()
+[![Platform](https://img.shields.io/badge/Platform-macOS%20(Apple%20Silicon)-purple.svg)]()
 [![Architecture](https://img.shields.io/badge/Architecture-4--Layer%20Design-blue.svg)]()
 
 ## 📖 Project Introduction
@@ -14,10 +16,55 @@ The name "BabelBuddy" is inspired by the Tower of Babel - a project where humani
 
 ### 🌟 Core Vision
 
-- **Personal AI Language Coach**: Always available, patient, neverjudges
+- **Personal AI Language Coach**: Always available, patient, never judges
 - **Privacy-First**: All processing done locally, no cloud API calls
 - **Voice-First Interaction**: Natural spoken dialogue, hands-free practice
-- **Multi-Language Support**: English, Spanish, Japanese, and more
+- **Multi-Language Support**: Designed for multi-language support (Phase 1: Chinese + English)
+
+---
+
+## 🚀 Phase 1: Chinese-English Seamless Conversation
+
+Phase 1 focuses on delivering the core experience: **a bilingual AI buddy that you can talk to naturally in Chinese or English, just like chatting with a real bilingual friend**.
+
+### Core Experience
+
+1. Say **"Hello Babel"** to wake it up
+2. Speak in any language — Babel **auto-detects** whether you're speaking Chinese or English
+3. Babel **responds in the same language** you used, naturally
+4. **Switch languages anytime** mid-conversation, no manual toggle needed
+5. Every response includes: **voice playback + original text + translation**
+
+### Example Conversation
+
+```
+You:    "Hello Babel"
+Babel:  🔔 "I'm listening..."
+
+You:    "你好，请问你是谁"
+Babel:  🗣️ "你好！我是 Babel，你的双语伙伴。有什么想聊的吗？"
+        📝 [Translation: Hi! I'm Babel, your bilingual buddy. What would you like to chat about?]
+
+You:    "OK, who r u"
+Babel:  🗣️ "Hey! I'm Babel, your bilingual buddy. What's on your mind?"
+        📝 [Translation: 嘿！我是 Babel，你的双语伙伴。你在想什么？]
+
+You:    "Bye Babel"
+Babel:  🔔 "See you next time!"
+```
+
+### Phase 1 Scope
+
+| Item | Decision |
+|---|---|
+| **Wake Word** | "Hello Babel" |
+| **Languages** | Chinese + English |
+| **Language Switching** | Auto-detect, respond in the same language |
+| **Persona** | Friendly, casual bilingual buddy |
+| **Output** | Voice + original text + translation |
+| **Clients** | CLI terminal + Web page |
+| **Hardware** | Apple Silicon Mac |
+| **History** | Save and browse past conversations |
 
 ---
 
@@ -28,18 +75,18 @@ BabelBuddy adopts a **4-Layer Architecture** designed for high-performance local
 ```
 ┌─────────────────────────────────────────────────────────────────┐
 │                      CLIENT LAYER                                │
-│  ┌─────────────┐  ┌─────────────┐  ┌─────────────────────────┐ │
-│  │ Web UI      │  │ Mobile App  │  │ Voice Terminal          │ │
-│  │ (React)     │  │ (Flutter)   │  │ (Raspberry Pi + Speaker)│ │
-│  └─────────────┘  └─────────────┘  └─────────────────────────┘ │
+│  ┌─────────────────────┐  ┌─────────────────────────────────┐   │
+│  │ Web UI (React)      │  │ Voice Terminal (CLI)            │   │
+│  │ Browser audio I/O   │  │ Local microphone + speakers     │   │
+│  └─────────────────────┘  └─────────────────────────────────┘   │
 └─────────────────────────────────────────────────────────────────┘
                               │
                               ▼
 ┌─────────────────────────────────────────────────────────────────┐
-│                   ORCHESTRATION LAYER                           │
+│                   ORCHESTRATION LAYER                            │
 │  ┌─────────────┐  ┌─────────────┐  ┌─────────────────────────┐ │
-│  │ FastAPI     │  │ WebSocket   │  │ Conversation Manager   │ │
-│  │ Gateway     │  │ Server      │  │ (State Machine)        │ │
+│  │ FastAPI     │  │ WebSocket   │  │ Conversation Manager    │ │
+│  │ Gateway     │  │ Server      │  │ (State Machine)         │ │
 │  └─────────────┘  └─────────────┘  └─────────────────────────┘ │
 └─────────────────────────────────────────────────────────────────┘
                               │
@@ -47,7 +94,7 @@ BabelBuddy adopts a **4-Layer Architecture** designed for high-performance local
 ┌─────────────────────────────────────────────────────────────────┐
 │                     AI CORE LAYER                                │
 │  ┌─────────────┐  ┌─────────────┐  ┌─────────────────────────┐ │
-│  │ Ollama      │  │ Whisper     │  │ XTTS / CosyVoice        │ │
+│  │ Ollama      │  │ Whisper     │  │ CosyVoice               │ │
 │  │ (LLM)       │  │ (ASR)       │  │ (TTS)                   │ │
 │  └─────────────┘  └─────────────┘  └─────────────────────────┘ │
 │  ┌─────────────┐  ┌─────────────┐                               │
@@ -60,15 +107,105 @@ BabelBuddy adopts a **4-Layer Architecture** designed for high-performance local
 ┌─────────────────────────────────────────────────────────────────┐
 │                      DATA LAYER                                  │
 │  ┌─────────────┐  ┌─────────────┐  ┌─────────────────────────┐ │
-│  │ ChromaDB    │  │ SQLite      │  │ Local File Storage      │ │
-│  │ (Vectors)   │  │ (Sessions)  │  │ (Audio, Models)         │ │
+│  │ SQLite      │  │ Local File  │  │ ChromaDB (Future)       │ │
+│  │ (Sessions)  │  │ Storage     │  │ (Vector Search)         │ │
 │  └─────────────┘  └─────────────┘  └─────────────────────────┘ │
 └─────────────────────────────────────────────────────────────────┘
 ```
 
+### Data Flow
+
+```
+User speaks → [Silero VAD: detect voice] → [Whisper ASR: transcribe + detect language]
+    → [Conversation Manager: assemble prompt with language instruction]
+    → [Ollama/Qwen2.5: stream reply + translation]
+    → [CosyVoice TTS: stream text to speech in chunks]
+    → Output: voice playback + screen display (original text + translation)
+```
+
+> **Streaming optimization**: LLM output is streamed to TTS in sentence-level chunks — Babel starts speaking the first sentence while the LLM is still generating the rest, reducing perceived latency to ~3 seconds.
+
 ---
 
-##⚙️ Hardware Requirements
+## 🔌 Extensible Architecture
+
+Every AI module is isolated behind an abstract interface, making each component **independently replaceable and upgradeable**.
+
+```
+┌──────────────────────────────────────────────────────────┐
+│                     BabelEngine                           │
+│                    (Orchestrator)                          │
+│                                                           │
+│   ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌─────────┐ │
+│   │ASRProvider│ │LangDetect│  │LLMProvider│ │TTSProvider│ │
+│   │ Protocol │  │ Protocol │  │ Protocol  │  │ Protocol │ │
+│   └─────┬────┘  └─────┬────┘  └─────┬────┘  └────┬─────┘ │
+└─────────┼──────────────┼─────────────┼────────────┼───────┘
+          │              │             │            │
+     ┌────▼────┐   ┌─────▼────┐  ┌────▼────┐  ┌───▼──────┐
+     │Whisper  │   │Whisper   │  │Ollama/  │  │CosyVoice │
+     │LargeV3  │   │Built-in  │  │Qwen2.5  │  │          │
+     └─────────┘   └──────────┘  └─────────┘  └──────────┘
+```
+
+### Abstract Interfaces
+
+All AI modules implement Protocol-based interfaces for easy replacement:
+
+```python
+class ASRProvider(Protocol):
+    async def transcribe(self, audio: bytes) -> ASRResult:
+        """Returns {text, language, confidence}"""
+
+class LLMProvider(Protocol):
+    async def chat(self, messages: list[Message]) -> LLMResponse:
+        """Returns {reply, translation}"""
+    async def chat_stream(self, messages: list[Message]) -> AsyncIterator[str]:
+        """Streams reply tokens for lower perceived latency"""
+
+class TTSProvider(Protocol):
+    async def synthesize(self, text: str, language: str) -> bytes:
+        """Returns audio data"""
+    async def synthesize_stream(self, text_stream: AsyncIterator[str], language: str) -> AsyncIterator[bytes]:
+        """Streams audio chunks from streaming text input"""
+
+class VADProvider(Protocol):
+    def is_speech(self, audio_chunk: bytes) -> bool:
+        """Returns True if audio chunk contains speech"""
+
+class WakeWordProvider(Protocol):
+    def detect(self, audio_chunk: bytes) -> bool:
+        """Returns True if wake word detected"""
+
+class LangDetector(Protocol):
+    def detect(self, text: str) -> LangResult:
+        """Returns {language, confidence} — future post-ASR verification layer"""
+
+class AudioSource(Protocol):
+    async def read_audio(self) -> bytes:
+        """Read audio chunk from source (mic or WebSocket)"""
+    async def play_audio(self, audio: bytes) -> None:
+        """Play audio to output"""
+    async def display(self, text: str, translation: str) -> None:
+        """Display text and translation"""
+```
+
+### Upgrade Roadmap
+
+| Dimension | Phase 1 | Future Upgrade Path |
+|---|---|---|
+| **Language Detection** | Whisper built-in | Pluggable LangDetector (langid / fastText) |
+| **ASR Accuracy** | Whisper Large V3 | FunASR / SenseVoice |
+| **LLM Capability** | Qwen2.5-32B | Larger models or cloud API |
+| **TTS Naturalness** | CosyVoice | ChatTTS / Fish Speech |
+| **VAD** | Silero VAD | WebRTC VAD |
+| **Wake Word** | Porcupine / openWakeWord | Custom-trained models |
+| **Language Count** | Chinese + English | ES / JA / PT (extend prompts + TTS voices) |
+| **Conversation Memory** | SQLite history | ChromaDB vector search |
+
+---
+
+## ⚙️ Hardware Requirements
 
 ### Recommended Configuration
 
@@ -79,14 +216,17 @@ BabelBuddy adopts a **4-Layer Architecture** designed for high-performance local
 | **Storage** | 1.8TB SSD | Model weights + audio storage |
 | **Audio** | External Microphone + Speakers | Low-latency recommended |
 
-### Memory Allocation Strategy
+### Memory Allocation Strategy (with Qwen2.5-32B)
 
 | Component | Memory Allocation |
 |-----------|------------------|
-| Ollama (LLM) | 384GB (Qwen2.5-32B or Llama3-70B) |
-| Whisper | 4GB |
-| System + Others | ~60GB |
-| **Reserved** | ~50GB |
+| Ollama (LLM) | ~64GB (Qwen2.5-32B) |
+| Whisper Large V3 | ~4GB |
+| CosyVoice | ~4GB |
+| System + Others | ~20GB |
+| **Total Required** | **~92GB** |
+
+> For Llama-3-70B, allocate ~140GB for Ollama. Full 512GB RAM is only needed when running 70B+ models.
 
 ---
 
@@ -105,8 +245,8 @@ BabelBuddy adopts a **4-Layer Architecture** designed for high-performance local
 | Function | Model | Notes |
 |----------|-------|-------|
 | **ASR (Speech→Text)** | Whisper Large V3 | Multilingual support |
-| **TTS (Text→Speech)** | XTTS v2 / CosyVoice | Natural voice output |
-| **Wake Word** | Porcupine (picovoice) | "Hey Babel" trigger |
+| **TTS (Text→Speech)** | CosyVoice | Chinese + English natural voice |
+| **Wake Word** | Porcupine (picovoice) | "Hello Babel" trigger |
 | **VAD** | Silero VAD | Voice activity detection |
 
 ---
@@ -114,27 +254,60 @@ BabelBuddy adopts a **4-Layer Architecture** designed for high-performance local
 ## ✨ Core Features
 
 ### 1. 🎙️ Voice Interaction
-- **Wake Word Detection**: "Hey Babel" activates the assistant
-- **Real-time ASR**: Speech-to-text with Whisper
-- **Natural TTS**: AI-generated speech response
-- **Full Duplex**: Simultaneous listening and speaking
+- **Wake Word Detection**: "Hello Babel" activates the assistant
+- **Real-time ASR**: Speech-to-text with automatic language detection
+- **Natural TTS**: AI-generated speech in Chinese or English
+- **Seamless Language Switching**: Auto-detects and responds in your language
 
-### 2. 📚 Language Practice
-- **Grammar Correction**: Instant feedback on mistakes
-- **Scenario Simulation**: Travel, business, daily conversations
-- **Vocabulary Building**: New words with examples
-- **Pronunciation Tips**: Phonetic guidance
+### 2. 🌐 Bilingual Output
+- **Original Text**: See exactly what Babel said on screen
+- **Translation**: Every response comes with its translation
+- **Voice Playback**: Hear the response spoken naturally
 
 ### 3. 🧠 Smart Conversations
-- **Context Memory**: Remembers conversation history
-- **Topic Suggestions**: Suggests practice topics
-- **Difficulty Levels**: Beginner to advanced
-- **Multiple Languages**: Switch between EN/ES/JA
+- **Context Memory**: Remembers conversation history within a session
+- **Friendly Persona**: Like chatting with a bilingual friend
+- **Natural Flow**: No rigid Q&A, just free-form conversation
 
-### 4. 📊 Progress Tracking
-- **Session History**: All conversations stored locally
-- **Statistics Dashboard**: Practice time, common mistakes
-- **Vector Search**: Find similar past conversations
+### 4. 📊 Session History
+- **Local Storage**: All conversations saved in SQLite
+- **Browse History**: Review past sessions and messages
+- **Search by Language**: Filter conversations by Chinese or English
+
+---
+
+## 📁 Project Structure
+
+```
+BabelBuddy/
+├── LICENSE                 # MIT License
+├── README.md               # This file
+├── docs/                   # Documentation
+│   └── superpowers/specs/  # Design specifications
+├── src/
+│   ├── core/               # Core engine (BabelEngine, conversation manager)
+│   ├── speech/             # ASR (Whisper), TTS (CosyVoice), VAD, Wake Word
+│   ├── llm/                # Ollama client, prompt templates
+│   ├── data/               # SQLite session storage, data models
+│   ├── api/                # FastAPI gateway, WebSocket, REST routes
+│   └── terminal/           # CLI voice terminal
+├── web/                    # React Web UI
+├── config/                 # Application configuration (settings.yaml)
+├── models/                 # Local model storage
+└── data/                   # Runtime data (sessions.db, audio files)
+```
+
+---
+
+## 🔧 API Endpoints
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/api/chat` | POST | Text message input, returns reply + translation |
+| `/api/ws/chat` | WebSocket | Real-time voice stream (audio + text + translation) |
+| `/api/sessions` | GET | List conversation history |
+| `/api/sessions/{id}` | GET | Get session details |
+| `/api/health` | GET | Service health check |
 
 ---
 
@@ -148,8 +321,6 @@ curl -fsSL https://ollama.com/install.sh | sh
 
 # 2. Pull recommended LLM model
 ollama pull qwen2.5:32b
-# or
-ollama pull llama3:70b
 
 # 3. Install Python dependencies
 pip install -r requirements.txt
@@ -176,38 +347,6 @@ python -m src.terminal.voice_terminal
 
 ---
 
-## 📁 Project Structure
-
-```
-BabelBuddy/
-├── LICENSE                 # MIT License
-├── README.md               # This file
-├── docs/                   # Documentation
-│   ├── SYSTEM_ARCHITECTURE.md
-│   └── MODEL_DOWNLOAD_GUIDE.md
-├── src/
-│   ├── api/                # FastAPI gateway
-│   ├── core/               # AI model wrappers
-│   ├── speech/             # ASR/TTS/Wake Word
-│   ├── data/               # ChromaDB/SQLite
-│   └── terminal/           # Voice terminal
-├── models/                 # Local model storage
-└── data/                   # Conversation data
-```
-
----
-
-## 🔧 API Endpoints
-
-| Endpoint | Method | Description |
-|----------|--------|-------------|
-| `/chat` | POST | Send message, get AI response |
-| `/ws/chat` | WebSocket | Real-time voice streaming |
-| `/session` | GET/POST | Conversation history |
-| `/stats` | GET | Practice statistics |
-
----
-
 ## 📜 License
 
 This project is licensed under the MIT License - see [LICENSE](LICENSE) for details.
@@ -218,9 +357,10 @@ This project is licensed under the MIT License - see [LICENSE](LICENSE) for deta
 
 - [Ollama](https://ollama.ai/) - Local LLM inference
 - [Whisper](https://github.com/openai/whisper) - Speech recognition
-- [XTTS](https://coqui.ai/) - Text-to-speech
+- [CosyVoice](https://github.com/FunAudioLLM/CosyVoice) - Text-to-speech
 - [Porcupine](https://picovoice.ai/porcupine/) - Wake word detection
+- [Silero VAD](https://github.com/snakers4/silero-vad) - Voice activity detection
 
 ---
 
-* BabelBuddy - Your personal language learning companion 🗣️🌍
+*BabelBuddy - Your personal language learning companion 🗣️🌍*
